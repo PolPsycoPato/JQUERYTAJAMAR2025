@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluar los numeros</title>
+    <script src="js/jquery-3.7.1.js"></script>
+</head>
+
+<body>
+    <h1>Evaluar numeros</h1>
+    <label for="">numero: 1 </label>
+    <input type="numero" id="cajaNumero1" />
+    <br>
+    <label for="">numero: 2 </label>
+    <input type="numero" id="cajaNumero2" />
+    <br>
+    <label for="">numero: 3 </label>
+    <input type="numero" id="cajaNumero3" />
+    <br>
+    <input type="button" value="Evaluar" id="botonEvaluar" />
+    <h1 id="resultado"></h1>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#botonEvaluar").click(function () {
+                var a = $("#cajaNumero1").val();
+                var b = $("#cajaNumero2").val();
+                var c = $("#cajaNumero3").val();
+                var mayor, menor, intermedio;
+
+
+                if (a > b && a > c) {
+                    mayor = a;
+                    if (b > c) {
+                        intermedio = b;
+                        menor = c;
+                    } else {
+                        intermedio = c;
+                        menor = b;
+                    }
+                } else if (b > a && b > c) {
+                    mayor = b;
+                    if (a > c) {
+                        intermedio = a;
+                        menor = c;
+                    } else {
+                        intermedio = c;
+                        menor = a;
+                    }
+                } else {
+                    mayor = c;
+                    if (a > b) {
+                        intermedio = a;
+                        menor = b;
+                    } else {
+                        intermedio = b;
+                        menor = a;
+                    }
+                }
+
+                $("#resultado").text("Mayor: " + mayor + ", Intermedio: " + intermedio + ", Menor : " + menor);
+            });
+
+        });
+    </script>
+</body>
+
+</html>

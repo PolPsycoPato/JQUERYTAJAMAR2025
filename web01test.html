@@ -1,11 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>inicio</title>
+    <title>Primeros pasos JQUERY</title>
+    <style>
+        .rojo {
+            color: red;
+        }
+    </style>
 </head>
+
 <body>
-    <p>Siempre tiene  que estar los archivos guardados para hacer commit</p>
+    <h1 class="rojo">Selectores JQUERY</h1>
+    <h2>Mi primer pagina web</h2>
+
+    <button id="boton1">Botón mostrar</button>
+    <button id="boton2">Botón </button>
+    <p>Parrafo ocultar</p>
+
+
+
+    <!-- para poner comentarios en cualquier ide es ctrl + k + c -->
+    <!-- y para descomentar ctrl + K + U -->
+
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        //  AQUI VA EL CODIGO JQUERY
+        // La primer linea siempre es:
+        $(document).ready(function () {
+            // alert("Hola Mundo");
+            $("h1").hide();
+
+            $("#boton1").click(function () {
+                $("h1").show();
+            });
+
+            $("p").click(function () {
+                $("#boton2").hide();
+            });
+
+            $("this").hide();
+        });
+
+
+    </script>
 </body>
+
 </html>
