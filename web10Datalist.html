@@ -1,21 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datalist</title>
+    <title>Lectura elementos XML</title>
+    <script src="js/jquery-3.7.1.js"></script>
 </head>
+
 <body>
-    <label for="navegadores">Elige un navegador:</label>
-    <input list="navegadores" id="navegador" name="navegador">
-    <datalist id="navegadores">
-        <option value="Sara" id="op1"/>
-        <option value="Alejandro" id="op2"/>
-        <option value="Javi" id="op3"/>
-        <option value="Andrea" id="op4"/>
-        <option value="Alberto" id="op5"/>
-        <option value="Marta" id="op6"/>
-    </datalist>     
-        
+    <h1>Elemento XML</h1>
+    <button id="btnLeer">Leer XML</button>
+    <ul id="listaEmpleados"></ul>
+    <script>
+        $(document).ready(function () {
+         console.log("Documento listo");
+
+            $("#btnLeer").click(function () {
+                console.log("Antes del servicio");
+                $.get("documents/empleados.xml", function (data) {
+                    console.log("Leyendo servicio");
+                    var html = "";
+                    //BUSCAMOS LA ETIQUETA APELLIDO
+                    $(data).find("APELLIDO").each(function () {
+                        //OBTENEMOS EL TEXTO
+                        var apellido = $(this).text();
+                        html += "<li>" + apellido + "</li>";
+                    });
+                    $("#listaEmpleados").html(html);
+                });
+                console.log("Después del servicio");
+            });
+        });
+    </script>
+
 </body>
+
 </html>

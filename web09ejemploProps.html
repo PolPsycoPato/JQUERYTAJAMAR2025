@@ -1,22 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Props checkbox</title>
     <script src="js/jquery-3.7.1.js"></script>
 </head>
+
 <body>
     <input type="range" id="rango" min="1" max="50" value="1">
     <label for="miCheckbox">Seleccione numero de checkbox</label>
     <span id="valorRango"></span>
     <h1 style="color:red" id="resultado">0</h1>
-<hr>
-<div id="contenedor"></div>
+    <hr>
+    <label for="navegadores">Elige un navegador:</label>
+    <input list="navegadores" id="navegador" name="navegador">
+    <datalist id="navegadores">
+        <option value="Sara" id="op1" />
+        <option value="Alejandro" id="op2" />
+        <option value="Javi" id="op3" />
+        <option value="Andrea" id="op4" />
+        <option value="Alberto" id="op5" />
+        <option value="Marta" id="op6" />
+    </datalist>
+    <hr>
+    <div id="contenedor"></div>
     <script>
         $(document).ready(function () {
-          
+
         });
     </script>
 </body>
+
 </html>

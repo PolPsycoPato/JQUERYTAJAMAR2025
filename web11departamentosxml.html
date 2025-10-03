@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Departamentos XML</title>
+    <script src="js/jquery-3.7.1.js"></script>
+</head>
+
+<body>
+    <h1>Departamentos</h1>
+    <button id="btnLeer">Leer XML</button>
+    <table id="tabla" border="1">
+        <thead>
+            <th>numero</th>
+            <th>nombre</th>
+            <th>localidad</th>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script>
+        $(document).ready(function () {
+
+            $("#btnLeer").click(function () {
+
+                $.get("documents/departamentos.xml", function (data) {
+                    var html = "";
+                    console.log("Leyendo servicio");
+                    $(data).find("DEPT").each(function () {
+                        var numero = $(this).attr("DEPT_NO");
+                        var nombre = $(this).find("DNOMBRE").first().text();
+                        var localidad = $(this).find("LOC").text();
+                        html += "<tr><td>" + numero + "</td><td>" + nombre + "</td><td>" + localidad + "</td></tr>";
+                    });
+                    $("#tabla tbody").html(html);
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>

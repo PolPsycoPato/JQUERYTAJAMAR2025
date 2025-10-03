@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtros XML</title>
+    <script src="js/jquery-3.7.1.js"></script>
+</head>
+
+<body>
+    <h1>Filtros XML</h1>
+    <label for="">Introduzca ID: </label>
+    <input type="text" id="cajaId">
+    <button id="btnBuscar">Buscar atributo ID</button>
+    <hr>
+    <label for="">Introduzca localidad: </label>
+    <input type="text" id="cajaLocalidad">
+    <button id="btnBuscarLocalidad">Buscar atributo Localidad</button>
+    <h1 style="color: lime;" id="mensaje"></h1>
+    <ul id="listaDept"></ul>
+    <hr>
+    <script>
+        $(document).ready(function () {
+            $("#btnBuscar").click(function () {
+                $.get("documents/departamentos.xml", function (data) {
+                    console.log("Leyendo servicio");
+                    var id = $("#cajaId").val();
+                    var filtro = "DEPT[DEPT_NO=" + id + "]";
+                    //Solamente tenemos un ID por departamentpo por lo que usamos .find
+                    var nodoDept = $(data).find(filtro).first();
+                    console.log(nodoDept);
+                    var nombre = $(nodoDept).find("DNOMBRE").text();
+                    var localidad = $(nodoDept).find("LOC").text();
+                    $("#mensaje").text("Departamento: " + nombre + " Localidad: " + localidad);
+                });
+            });
+            $("#btnBuscarLocalidad").click(function () {
+                $.get("documents/departamentos.xml", function (data) {
+                    console.log("Leyendo servicio");
+                    var localidad = $("#cajaLocalidad").val();
+                    //El filtro sera el siguiente:
+
+                    var filtro = "LOC:contains(" + localidad + ")";
+                    var html = "";
+                    //Puede haber varios departamentos en la misma localidad por lo que usamos .each
+                    $(data).find(filtro).each(function () {
+                        var LOCALIDADES = $(this).text();
+                        var id = $(nodoDept).find("DEPT[DEPT_NO]").text();
+                        var nodoDept = $(this).parent(); //Nos situamos en el padre DEPT
+                        var nombre = $(nodoDept).find("DNOMBRE").text();
+                        html += "<li>" + id + " - " + nombre + " - " + LOCALIDADES + "</li>";
+                    });
+                    $("#listaDept").html(html);
+                });
+            });
+        });
+    </script>
+
+</html>
+
+
+
+
+</body>
