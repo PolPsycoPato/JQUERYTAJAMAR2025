@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controles dinámicos</title>
+    <script src="js/jquery-3.7.1.js"></script>
+</head>
+
+<body>
+    <h1>controles dinamicos</h1>
+    <label for="cajaTexto">Introduzca un texto</label>
+    <input type="text" id="cajaTexto" />
+    <button id="botonGenerar">Generar control</button>
+    <div id="contenedor"></div>
+    <hr>
+    <script>
+        $(document).ready(function () {
+            $("#botonGenerar").click(function () {
+                var texto = $("#cajaTexto").val();
+                //Cremos un párrafo con un evento/Listener
+                // var parrafo = n$("p");
+                // parrafo.text(texto);
+                // parrafo.css("color", "blue");
+                //Crear el objeto e inicializar sus atributos
+                var parrafo = $("<p></p>", { "text": texto, "style": "color:blue" });
+                $("#contenedor").append(parrafo);
+                parrafo.click(function () {
+                    $(this).css("color", "red");
+                    $(this).text("Pulsado!!!")
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

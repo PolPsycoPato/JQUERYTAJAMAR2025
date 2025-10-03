@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sumar botoneses dinámicos</title>
+    <script src="js/jquery-3.7.1.js"></script>
+</head>
+
+<body>
+    <div id="contenedorBotones"></div>
+    <h1 style="color: lime;" id="resultado">0</h1>
+
+    <script>
+        $(document).ready(function () {
+            //Crear botones dinámicamente
+            for (var i = 1; i <= 10; i++) {
+                var botones = $("<button style='color:yellow; background-color:red;'></button>");
+                var r = parseInt(Math.random() * 100) + 1;
+                botones.text("Número " + r);
+                 botones.val(r);
+                $("#contenedorBotones").append(botones);
+                botones.click(function () {
+                    var valor = parseInt($(this).val());
+                    var suma = parseInt($("#resultado").text());
+                    suma += valor;
+                    $("#resultado").text(suma);
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

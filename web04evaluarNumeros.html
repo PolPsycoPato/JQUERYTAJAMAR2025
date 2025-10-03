@@ -11,13 +11,13 @@
 <body>
     <h1>Evaluar numeros</h1>
     <label for="">numero: 1 </label>
-    <input type="numero" id="cajaNumero1" />
+    <input type="number" id="cajaNumero1" />
     <br>
     <label for="">numero: 2 </label>
-    <input type="numero" id="cajaNumero2" />
+    <input type="number" id="cajaNumero2" />
     <br>
     <label for="">numero: 3 </label>
-    <input type="numero" id="cajaNumero3" />
+    <input type="number" id="cajaNumero3" />
     <br>
     <input type="button" value="Evaluar" id="botonEvaluar" />
     <h1 id="resultado"></h1>
@@ -31,35 +31,23 @@
                 var c = $("#cajaNumero3").val();
                 var mayor, menor, intermedio;
 
-
-                if (a > b && a > c) {
+                if (a >= b && a >= c) {
                     mayor = a;
-                    if (b > c) {
-                        intermedio = b;
-                        menor = c;
-                    } else {
-                        intermedio = c;
-                        menor = b;
-                    }
-                } else if (b > a && b > c) {
+                } else if (b >= a && b >= c) {
                     mayor = b;
-                    if (a > c) {
-                        intermedio = a;
-                        menor = c;
-                    } else {
-                        intermedio = c;
-                        menor = a;
-                    }
                 } else {
                     mayor = c;
-                    if (a > b) {
-                        intermedio = a;
-                        menor = b;
-                    } else {
-                        intermedio = b;
-                        menor = a;
-                    }
                 }
+
+                if (a <= b && a <= c) {
+                    menor = a;
+                } else if (b <= a && b <= c) {
+                    menor = b;
+                } else {
+                    menor = c;
+                }
+
+                intermedio = a + b + c - mayor - menor;
 
                 $("#resultado").text("Mayor: " + mayor + ", Intermedio: " + intermedio + ", Menor : " + menor);
             });

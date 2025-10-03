@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bucle referencia each</title>
+    <script src="js/jquery-3.7.1.js"></script>
+</head>
+<body>
+    <p>Párrafo1</p>
+    <p>Párrafo2</p>
+    <p>Párrafo3</p>
+    <p>Párrafo4</p>
+    <p>Párrafo5</p>
+    <p>Párrafo6</p>
+
+    <script>
+        $(document).ready(function () {
+            $("p").click(function (index, elemento) {
+                var colores = ["red", "blue", "green", "yellow", "purple", "pink"];
+                $("p").each(function(){
+                    var n = parseInt(Math.random() * colores.length);
+                    $(this).css("background-color", colores[n]);
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
