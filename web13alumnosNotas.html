@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notas de los alumnos</title>
+    <script src="js/jquery-3.7.1.js"></script>
+</head>
+
+<body>
+    <h1>Alumnos notas</h1>
+    <label for="nota">Introduce la nota:</label>
+    <input type="number" id="nota" name="nota">
+    <button id="btnBuscar">Buscar alumno</button>
+    <table id="tablaAlumnos">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Nota</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        $(document).ready(function () {
+            console.log("Documento listo");
+            $("#btnBuscar").click(function () {
+                $.get("documents/alumnos.xml", function (data) {
+                    console.log("Leyendo");
+                    var nota = parseInt($("#nota").val());
+
+                    var html = "";
+
+                    $(data).find("alumno").each(function () {
+
+                        var notaAlumno = parseInt($(this).find("nota").first().text());
+
+
+                        if (nota >= notaAlumno) {
+                            var nombre = $(this).find("nombre").first().text();
+                            var apellido = $(this).find("apellidos").first().text();
+
+                            html += "<tr>";
+                            html += "<td>" + nombre + "</td>";
+                            html += "<td>" + apellido + "</td>";
+                            html += "<td>" + notaAlumno + "</td>";
+                            html += "</tr>";
+
+                        } else {
+                            console.log("No hay alumnos con esa nota");
+                        }
+                    })
+
+                    $("#tablaAlumnos tbody").html(html);
+                });
+                console.log("Después del servicio");
+            });
+        });
+    </script>
+
+</body>
+
+</html>

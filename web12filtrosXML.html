@@ -46,9 +46,9 @@
                     //Puede haber varios departamentos en la misma localidad por lo que usamos .each
                     $(data).find(filtro).each(function () {
                         var LOCALIDADES = $(this).text();
-                        var id = $(nodoDept).find("DEPT[DEPT_NO]").text();
-                        var nodoDept = $(this).parent(); //Nos situamos en el padre DEPT
-                        var nombre = $(nodoDept).find("DNOMBRE").text();
+                        var dept = $(this).parent(); //Nos situamos en el padre DEPT
+                        var id = $(dept).attr("DEPT_NO");
+                        var nombre = $(dept).find("DNOMBRE").text();
                         html += "<li>" + id + " - " + nombre + " - " + LOCALIDADES + "</li>";
                     });
                     $("#listaDept").html(html);

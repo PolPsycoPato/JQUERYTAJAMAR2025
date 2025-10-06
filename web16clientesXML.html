@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes XML</title>
+    <script src="js/jquery-3.7.1.js"></script>
+</head>
+
+<body>
+    <h1>Seleccion de clientes</h1>
+    <select id="selectClientes">
+        <option value="">--Seleccione--</option>
+    </select>
+    <button id="btnCargar">Cargar Datos</button>
+     <div id="contenedor"></div>
+
+    <script>
+
+        $(document).ready(function () {
+            var url = "https://apiclientesxml.azurewebsites.net/";
+            var request = "api/clientes/getclientesxml";
+
+            $("#btnCargar").click(function () {
+                //Cargar clientes en el select
+                $.get(url + request, function (data) {
+                    console.log("Leyendo...");
+                    $(data).find("CLIENTE").each(function () {
+
+                        var id = $(this).attr("IDCLIENTE");
+                        console.log(id);
+                        var nombre = $(this).find("NOMBRE").text();
+                        var option = $("<option>");
+                        option.val(id);
+                        option.text(nombre);
+                        $("#selectClientes").append(option);
+
+                    });
+                });
+
+                //Seleccionar un cliente y mostrar sus datos
+                $("#selectClientes").change(function () {
+                    var url = "https://apiclientesxml.azurewebsites.net/";
+                    var request = "api/clientes/getclientesxml";
+
+                     var idCliente = $(this).val();
+                    $.get(url + request, function (data) {  
+                        var filtro = "CLIENTE[IDCLIENTE='" + idCliente + "']";
+                        var nodo = $(data).find(filtro);
+                        var nombre = nodo.find("NOMBRE").text();
+                        var direccion = nodo.find("DIRECCION").text();
+                        var email = nodo.find("EMAIL").text();
+                        var codigoPostal = nodo.find("CODIGOPOSTAL").text();
+                        var paginaWeb = nodo.find("PAGINAWEB").text();
+                        var imagenCliente = nodo.find("IMAGENCLIENTE").text();
+
+                        var html = "<h2>" + nombre + "</h2>";
+                        html += "<p>Direccion: " + direccion + "</p>";
+                        html += "<p>Email: " + email + "</p>";
+                        html += "<p>Codigo Postal: " + codigoPostal + "</p>";
+                        html += "<p>Pagina Web: " + paginaWeb + "</p>";
+                        html += "<img src='" + imagenCliente + "' />";
+                        $("#contenedor").html(html);
+
+                    });
+                       
+                });
+            });
+        });
+
+    </script>
+</body>
+
+</html>

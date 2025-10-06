@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicio de Coches</title>
+    <script src="js/jquery-3.7.1.js"></script>
+</head>
+
+<body>
+    <h1>Select de coches</h1>
+    <label>Seleccione un Coche:</label>
+    <select id="selectCoches">
+        <option value="">--Seleccione--</option>
+    </select>
+    <div id="contenedor"></div>
+    <button id="btnCargar">Cargar Datos</button>
+
+
+    <script>
+        $(document).ready(function () {
+            //Leemos el servicio y cargamos todos los coches en el select
+            //El servicio lo vamos a leer al inicio y al seleccionar 
+
+            $("#btnCargar").click(function () {
+
+                var url = "https://apiclientesxml.azurewebsites.net/";
+                var request = "api/clientes/getcochesxml";
+                //Primer metodo para pintar el elemento select
+                $.get(url + request, function (data) {
+                    console.log("Leyendo...");
+                    $(data).find("coche").each(function () {
+
+                        var id = $(this).attr("idcoche");
+                        console.log(id);
+                        var marca = $(this).find("marca").text();
+                        var modelo = $(this).find("modelo").text();
+                        var option = $("<option>");
+                        option.val(id);
+                        option.text(marca + " " + modelo);
+                        $("#selectCoches").append(option);
+
+                    });
+
+                });
+
+                //Segundo metodo para seeleccionar un coche y pintar su imagen
+                $("#selectCoches").change(function () {
+                    var idCoche = $(this).val();
+                    $.get(url + request, function (data) {
+                        var filtro = "coche[idcoche='" + idCoche + "']";
+                        var nodoCoche = $(data).find(filtro);
+                        var imagen = nodoCoche.find("imagen").text();
+                        $("#contenedor").html("<img src='" + imagen + "' />");
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

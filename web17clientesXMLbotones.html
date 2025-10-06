@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botones con clientes XML y su información</title>
+    <script src="js/jquery-3.7.1.js"></script>
+</head>
+
+<body>
+    <h1>Botones de los clientes</h1>
+    <div id="contenedorBotones"></div>
+    <div id="contenedor"></div>
+    <script>
+        $(document).ready(function () {
+            var url = "https://apiclientesxml.azurewebsites.net/";
+            var request = "api/clientes";
+
+            $.get(url + request, function (data) {
+                console.log("Leyendo...");
+                $(data).find("CLIENTE").each(function () {
+
+                    var id = $(this).find("IdCliente").text();
+                    var nombre = $(this).find("Nombre").text();
+                    var boton = $("<button>");
+                    boton.text(nombre);
+                    boton.val(id);
+                    $("#contenedorBotones").append(boton);
+
+                });
+                //Evento click de los botones
+                $("button").click(function () {
+                    var idCliente = $(this).val();
+    
+                    $.get(url + request + "/" + idCliente, function (data) {
+                        var nombre = $(data).find("Nombre").text();
+                        var email = $(data).find("Email").text();
+                        var imagen = $(data).find("Imagen").text();
+
+                        var html = "<h2>" + nombre + "</h2>";
+                        html += "<p>Email: " + email + "</p>";
+                        html += "<img src='" + imagen + "' style='width:300px;' />";
+                        $("#contenedor").html(html);
+
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
