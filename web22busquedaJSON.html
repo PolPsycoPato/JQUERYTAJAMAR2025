@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busqueda de jugadores en un JSON</title>
+    <script src="js/jquery-3.7.1.js"></script>
+</head>
+
+<body>
+    <h1>Busquedadocumento JSON</h1>
+    <label>Selecciones un jugador</label>
+    <select id="selectjugador"></select>
+    <div id="contenedorjugador"></div>
+    <script>
+        $(document).ready(function () {
+            $.getJSON("documents/jugadores.json", function (data) {
+                $.each(data.jugadores, function (i, player) {
+                    var nombre = player.nombre;
+                    var opcion = $("<option>", { "text": nombre, "value": i });
+                    $("#selectjugador").append(opcion);
+                });
+
+            });
+
+            $("#selectjugador").change(function () {
+                var name = $("#selectjugador").val();
+                $.ajax({
+                    url: "documents/jugadores.json",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        var indexjugdor = $("#selectjugador").val();
+                        var html = "";
+                        // $.each(data.jugadores, function (i, player) {
+                        //     var players = player.nombre;
+                        //     var numero = player.numero;
+                        //     var posicion = player.posicion;
+                        //     var edad = player.edad;
+                        //     var imagen = player.imagen;
+
+                        //     if (players === name) {
+                        //         html += "<h2>" + players + "</h2>";
+                        //         html += "<p>Numero: " + numero + "</p>";
+                        //         html += "<p>Posicion: " +posicion + "</p>";
+                        //         html += "<p>Edad: " + edad + "</p>";
+                        //         html += "<img src='" +imagen + "'/>";
+                        //     }
+                        // });
+
+                        var player = data.jugadores[indexjugdor];
+                        var html = "";
+                        html += "<h2>" + player.nombre + "</h2>";
+                        html += "<p>Numero: " + player.numero + "</p>";
+                        html += "<p>Posicion: " + player.posicion + "</p>";
+                        html += "<p>Edad: " + player.edad + "</p>";
+                        html += "<img src='" + player.imagen + "'/>";
+                        
+                        $("#contenedorjugador").html(html);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

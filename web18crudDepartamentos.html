@@ -9,6 +9,18 @@
 </head>
 
 <body>
+    <h1>CRUD de Departamentos</h1>
+    <label>Id Departamento</label>
+    <input type="text" id="idDepartamento" name="idDepartamento">
+    <label>Nombre:</label>
+    <input type="text" id="nombre" name="nombre">
+    <label>Localidad:</label>
+    <input type="text" id="localidad" name="localidad">
+    
+    <button id="btnInsert">INSERTAR</button>
+    <button id="btnUpdate">ACTUALIZAR</button>
+    <button id="btnDelete">ELIMINAR</button>
+    
     <table id="tablaDepartamentos" style="border: 1px solid black;">
         <thead>
             <tr>
@@ -19,18 +31,6 @@
         </thead>
         <tbody></tbody>
     </table>
-    
-    <h1>CRUD de Departamentos</h1>
-    <label>Id Departamento</label>
-    <input type="text" id="idDepartamento" name="idDepartamento">
-    <label>Nombre:</label>
-    <input type="text" id="nombre" name="nombre">
-    <label>Localidad:</label>
-    <input type="text" id="localidad" name="localidad">
-
-    <button id="btnInsert">INSERTAR</button>
-    <button id="btnUpdate">ACTUALIZAR</button>
-    <button id="btnDelete">ELIMINAR</button>
 
     <script>
         let url = "https://apicruddepartamentosxml.azurewebsites.net/";
