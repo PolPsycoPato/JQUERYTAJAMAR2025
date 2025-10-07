@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi primer CRUD</title>
+    <script src="js/jquery-3.7.1.js"></script>
+</head>
+
+<body>
+    <table id="tablaDepartamentos" style="border: 1px solid black;">
+        <thead>
+            <tr>
+                <th>Id departamento</th>
+                <th>Nombre</th>
+                <th>Localidad</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    
+    <h1>CRUD de Departamentos</h1>
+    <label>Id Departamento</label>
+    <input type="text" id="idDepartamento" name="idDepartamento">
+    <label>Nombre:</label>
+    <input type="text" id="nombre" name="nombre">
+    <label>Localidad:</label>
+    <input type="text" id="localidad" name="localidad">
+
+    <button id="btnInsert">INSERTAR</button>
+    <button id="btnUpdate">ACTUALIZAR</button>
+    <button id="btnDelete">ELIMINAR</button>
+
+    <script>
+        let url = "https://apicruddepartamentosxml.azurewebsites.net/";
+
+        $(document).ready(function () {
+            cargarTabla();
+
+            $("#btnInsert").click(function () {
+                let id = $("#idDepartamento").val();
+                let nombre = $("#nombre").val();
+                let loc = $("#localidad").val();
+
+                //Para insertar un nuevo registro
+                // necesitamos generar un string con la misma estructura 
+                // que el documento xml par sus registros 
+                let dataXML = "<Departamento>";
+                dataXML += "<IdDepartamento>" + id + "</IdDepartamento>";
+                dataXML += "<Nombre>" + nombre + "</Nombre>";
+                dataXML += "<Localidad>" + loc + "</Localidad>";
+                dataXML += "</Departamento>";
+                let request = "api/departamentos";
+
+                //Realizamos la peticion con ajax
+                $.ajax({
+                    url: url + request,
+                    type: "POST",
+                    contentType: "text/xml",
+                    data: dataXML,
+                    success: function () {
+                        console.log("Insertado");
+                        cargarTabla();
+                    },
+
+                });
+
+            });
+
+            $("#btnUpdate").click(function () {
+                let id = $("#idDepartamento").val();
+                let nombre = $("#nombre").val();
+                let loc = $("#localidad").val();
+                //Llamamos al metodo que genera el XML
+
+                let dataXML = getDepartamentosXML(id, nombre, loc);
+                let request = "api/departamentos";
+                $.ajax({
+                    url: url + request,
+                    type: "PUT",
+                    contentType: "text/xml",
+                    data: dataXML,
+                    success: function () {
+                        console.log("Actualizado");
+                        cargarTabla();
+                    },
+
+                });
+
+            });
+
+            $("#btnDelete").click(function () {
+                let id = $("#idDepartamento").val();
+                let request = "api/departamentos/" + id;
+                $.ajax({
+                    url: url + request,
+                    type: "DELETE",
+                    success: function () {
+                        console.log("Eliminado");
+                        cargarTabla();
+                    }
+                })
+
+            });
+
+        });
+
+        function cargarTabla() {
+            var request = "api/departamentos";
+
+            $.get(url + request, function (data) {
+                console.log("Leyendo...");
+                var html = "";
+                $(data).find("Departamento").each(function () {
+                    let id = $(this).find("IdDepartamento").text();
+                    let nombre = $(this).find("Nombre").text();
+                    let loc = $(this).find("Localidad").text();
+                    html += "<tr><td style='border: 1px solid black;'>" + id + "</td><td style='border: 1px solid black;'>" + nombre + "</td><td style='border: 1px solid black;'>" + loc + "</td></tr>";
+                });
+                $("#tablaDepartamentos tbody").html(html);
+            });
+
+        };
+
+        function getDepartamentosXML(id, nombre, loc) {
+            //Copiamos el codigo de generación del objeto XML
+            let dataXML = "<Departamento>";
+            dataXML += "<IdDepartamento>" + id + "</IdDepartamento>";
+            dataXML += "<Nombre>" + nombre + "</Nombre>";
+            dataXML += "<Localidad>" + loc + "</Localidad>";
+            dataXML += "</Departamento>";
+            return dataXML;
+        };
+
+    </script>
+</body>
+
+</html>

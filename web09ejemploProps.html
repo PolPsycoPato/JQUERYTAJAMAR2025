@@ -31,8 +31,29 @@
     </datalist>
     <hr>
     <div id="contenedor"></div>
+
     <script>
         $(document).ready(function () {
+            $("#rango").change(function () {
+                let num = $(this).val();
+                $("#valorRango").text(num);
+                let html = "";
+                
+                for (let i = 1; i <= num; i++) {
+                    let r = Math.floor(Math.random() * 256);
+                    html += `<input type="checkbox" class="miCheckbox" value="${r}" id="check${i}">`;
+                    html += `<label for="check${r}">Checkbox ${r}</label>`;
+                }
+
+                $("#contenedor").html(html);
+                $(".miCheckbox").change(function () {
+                    let suma = 0;
+                    $(".miCheckbox:checked").each(function () {
+                        suma += parseInt($(this).val());
+                    });
+                    $("#resultado").text(suma);
+                });
+            })
 
         });
     </script>

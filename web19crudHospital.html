@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crud de doctores</title>
+    <script src="js/jquery-3.7.1.js"></script>
+</head>
+
+<body>
+    <h1>Crud doctores</h1>
+
+    <label for="">Apellido</label>
+    <input type="text" id="apellido"> <br>
+    <label for="Especialidad">Especialidad</label>
+    <input type="text" id="especialidad"> <br>
+    <label>Id Doctor</label>
+    <input type="text" id="idDoctor"> <br>
+    <label for="IdHospital">Id Hospital</label>
+    <input type="text" id="idHospital"> <br>
+    <label for="Salario">Salario</label>
+    <input type="text" id="salario"> <br>
+
+    <button id="btnInsert">INSERTAR</button>
+    <button id="btnUpdate">ACTUALIZAR</button>
+    <button id="btnDelete">ELIMINAR</button>
+
+    <table id="tablaDoctores" style="border: 1px solid black;">
+        <thead>
+            <tr>
+                <th>Apellido</th>
+                <th>Especialidad</th>
+                <th>Id Doctor</th>
+                <th>Id Hospital</th>
+                <th>Salario</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+
+    <script>
+        let url = "https://apicruddoctoresxml.azurewebsites.net/";
+
+        $(document).ready(function () {
+            cargartabla();
+
+            $("#btnInsert").click(function () {
+                let apellido = $("#apellido").val();
+                let especialidad = $("#especialidad").val();
+                let idDoctor = $("#idDoctor").val();
+                let idHospital = $("#idHospital").val();
+                let salario = $("#salario").val();
+
+                let dataXML = getDoctoresXML(apellido, especialidad, idDoctor, idHospital, salario);
+                let request = "api/Doctores";
+                $.ajax({
+                    url: url + request,
+                    type: "POST",
+                    contentType: "text/xml",
+                    data: dataXML,
+                    success: function () {
+                        console.log("Insertado");
+                        cargartabla();
+                    }
+                });
+            });
+        });
+
+
+        function cargartabla() {
+            var request = "api/Doctores";
+            $.get(url + request, function (data) {
+                console.log("Leyendo...");
+                var html = "";
+
+                $(data).find("Doctor").each(function () {
+                    let apellido = $(this).find("Apellido").text();
+                    let especialidad = $(this).find("Especialidad").text();
+                    let idDoctor = $(this).find("IdDoctor").text();
+                    let idHospital = $(this).find("IdHospital").text();
+                    let salario = $(this).find("Salario").text();
+
+                    html += "<tr>";
+                    html += "<td style=\"border: 1px solid black;\">" + apellido + "</td>";
+                    html += "<td style=\"border: 1px solid black;\">" + especialidad + "</td>";
+                    html += "<td style=\"border: 1px solid black;\">" + idDoctor + "</td>";
+                    html += "<td style=\"border: 1px solid black;\">" + idHospital + "</td>";
+                    html += "<td style=\"border: 1px solid black;\">" + salario + "</td>";
+                    html += "</tr>";
+
+
+                });
+                $("#tablaDoctores tbody").html(html);
+            });
+        };
+
+        function getDoctoresXML(apellido, especialidad, idDoctor, idHospital, salario) {
+            let dataXML = "<Doctor>";
+            dataXML += "<Apellido>" + apellido + "</Apellido>";
+            dataXML += "<Especialidad>" + especialidad + "</Especialidad>";
+            dataXML += "<IdDoctor>" + idDoctor + "</IdDoctor>";
+            dataXML += "<IdHospital>" + idHospital + "</IdHospital>";
+            dataXML += "<Salario>" + salario + "</Salario>";
+            dataXML += "</Doctor>";
+            return dataXML
+        };
+
+    </script>
+
+</body>
+
+</html>
