@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de los empleados de cada departamento</title>
+    <script src="js/jquery-3.7.1.js"></script>
+</head>
+
+<body>
+    <h1>Maestro empleado detalle</h1>
+    <ul id="listaEmp"></ul>
+    <table id="tablaEmpleados">
+        <thead>
+            <tr>
+                <th>Apellidos</th>
+                <th>Oficio</th>
+                <th>Salario</th>
+                <th>departamentos</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <script>
+        let urlDept = "https://apicruddepartamentospgs.azurewebsites.net/";
+        let urlEmp = "https://apiempleadosspgs.azurewebsites.net/";
+        $(document).ready(function () {
+            loadDept();
+        })
+
+        function loadDept() {
+            var requestDept = "webresources/departamentos";
+            $.getJSON(urlDept + requestDept, function (data) {
+                $.each(data, function (i, dept) {
+                    var li = $("<li>", { "text": dept.nombre });
+                    var link = $("<a>", { "href": "#", "text": "Empleados", "data-id": dept.numero });
+                    li.append(link);
+                    $("#listaEmp").append(li)
+                    link.click(function () {
+                        var id = $(this).data("id");
+                        console.log("Departamento" + id);
+                        var requestEmp = "api/empleados/empleadosdepartamento/" + id;
+
+                        $.ajax({
+                            url: urlEmp + requestEmp,
+                            type: "GET",
+                            dataType:"json",
+                            success: function (data) {
+                                console.log("Leyendo");
+                                var html = "";
+                                $.each(data, function (i, emp) {
+                                    console.log(data);
+                                    html += "<tr>";
+                                    html += "<td>" + emp.apellido + "</td>";
+                                    html += "<td>" + emp.oficio + "</td>";
+                                    html += "<td>" + emp.salario + "</td>";
+                                    html += "<td>" + emp.departamento + "</td>";
+                                    html += "</tr>";
+                                    $("#tablaEmpleados tbody").html(html);
+                                });
+
+                            }
+
+                        });
+
+                    });
+
+                });
+
+            });
+        }
+
+    </script>
+
+
+
+
+</body>
+
+</html>

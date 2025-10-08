@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modificar lo sdatos de los empleados</title>
+    <script src="js/jquery-3.7.1.js"></script>
+</head>
+
+<body>
+    <h1>Empleados Oficio</h1>
+    <selec id="selecEmp">
+        <option value="">Seleccione</option>
+    </selec>
+    <label>Incremento salarial</label>
+    <input type="number" id="n">
+    <table id="tablaEmp">
+        <thead>
+            <tr>
+                <th>apellido</th>
+                <th>Oficio</th>
+                <th>salario</th>
+            </tr>
+        </thead>
+    </table>
+
+    <script>
+        let url = "https://apiempleadosaction.azurewebsites.net/"
+        $(document).ready(function () {
+
+
+        });
+        function loadDept() {
+            let url = "https://apicruddepartamentospgs.azurewebsites.net/";
+            let request = "webresources/departamentos";
+            $.ajax({
+                url=url + request;
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    console.log("Leyendo...");
+                    $.each(data, function (i, dept) {
+                        var id = dept.numero;
+                        var nombre = dept.nombre;
+                        var loc = dept.localidad;
+                        var li = $("<li>", { "text": "ID:" + id + " NOMBRE:" + nombre });
+                        var link =
+
+                    })
+
+
+                }
+            })
+
+        }
+
+        function loadOfi() {
+            let request = "/api/Empleados/GetOficios/oficios"
+            $.getJSON(url + request, function (data) {
+                console.log("Leyendo datos");
+                $.each(data, function () {
+                    var oficio = this;
+                    var option = $("<option>", {
+                        "value": oficio,
+                        "text": oficio
+                    });
+                    $("selectEmp").append(option);
+
+
+                });
+            });
+        }
+
+
+    </script>
+</body>
+
+</html>
