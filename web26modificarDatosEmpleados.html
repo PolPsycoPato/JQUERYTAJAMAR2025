@@ -35,7 +35,7 @@
             let url = "https://apicruddepartamentospgs.azurewebsites.net/";
             let request = "webresources/departamentos";
             $.ajax({
-                url=url + request;
+                url: url + request,
                 type: "GET",
                 dataType: "json",
                 success: function (data) {
@@ -45,9 +45,44 @@
                         var nombre = dept.nombre;
                         var loc = dept.localidad;
                         var li = $("<li>", { "text": "ID:" + id + " NOMBRE:" + nombre });
-                        var link =
+                        var link = $("<a>", {
+                            "href": "#",
+                            "class": "btn-depto",
+                            "text": "Empleados",
+                            "data-id": id
+                        });
+                        li, append(link);
 
-                    })
+                        urlEmpleados = "https://apiempleadosspgs.azurewebsites.net/";
+                        requestEmpleados = "api/Empleados/EmpleadosDepartamento/" + idDepto;
+
+                        $.ajax({
+                            url: urlEmpleados + requestEmpleados,
+                            type: "GET",
+                            dataType: "json",
+                            success: function (data) {
+                                $("tablaEmp tbody").html("");
+                                console.log("Leyendo empleados");
+                                $.each(data, function (i, emp) {
+                                    var apellido = emp.apellido;
+                                    var oficio = emp.oficio;
+                                    var salario = emp.salario;
+                                    var departamento = emp.departamento;
+
+                                    var fila = "<tr>";
+                                    fila += "<td>" + apellido + "</td>";
+                                    fila += "<td>" + oficio + "</td>";
+                                    fila += "<td>" + salario + "</td>";
+                                    fila += "<td> " + departamento + "</td>";
+                                    fila += "</tr>";
+                                    $("tablaEmp tbody").append(fila);
+
+                                })
+
+
+                            }
+                        })
+                    });
 
 
                 }

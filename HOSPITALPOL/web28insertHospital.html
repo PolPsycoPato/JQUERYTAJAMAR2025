@@ -156,6 +156,7 @@
     </div>
 
 
+  
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container-fluid"> <a class="navbar-brand" href="#">Fixed navbar</a> <button class="navbar-toggler"
                 type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse"
@@ -164,8 +165,8 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item"> <a class="nav-link active" aria-current="page" href="web28homeHospital.html">Homepital</a> </li>
-                    <li class="nav-item"> <a class="nav-link" href="web28insertHospitasl.html">Insertar Hospital</a> </li>
-                    <li class="nav-item"> <a class="nav-link" href="web28editHospitasl.html">Editar Hospital</a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="web28insertHospital.html">Insertar Hospital</a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="web28editHospital.html">Editar Hospital</a> </li>
                 </ul>
                 <form class="d-flex" role="search"> <input class="form-control me-2" type="search" placeholder="Search"
                         aria-label="Search"> <button class="btn btn-outline-success" type="submit">Search</button>
@@ -175,37 +176,72 @@
     </nav>
 
 
+
+
     <main class="container">
         <div class="bg-body-tertiary p-5 rounded">
-            <h1>Hospital Details</h1>
-            <ul id="listaHospitales"></ul>
+            <h1>INSERTAR HOSPITAL</h1>
+            <table id="tablaHospital" class="table table-bordered">
+                <div class="mb-3">
+                    <label for="id" class="form-label">Id</label>
+                    <input type="text" id="cajaId" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" id="cajaNombre" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="direccion" class="form-label">Dirección</label>
+                    <input type="text" id="cajaDireccion" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <input type="text" id="cajaTelefono" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="camas" class="form-label">Camas</label>
+                    <input type="number" id="cajaCamas" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <button id="btnInsertar" class="btn btn-primary">Insertar</button>
+                </div>
+
         </div>
     </main>
+
     <script src="js/bootstrap.bundle.js"></script>
-    <script>
-        var url = "https://apicrudhospital.azurewebsites.net/";
+    <script> var url = "https://apicrudhospital.azurewebsites.net/";
         $(document).ready(function () {
-            var params = new window.URLSearchParams(window.location.search);
-            var idHospital = params.get("idHospital");
-            console.log("ID Hospital" + idHospital);
-            var requestFind = "webresources/hospitales/" + idHospital;
+            var request = "webresources/hospitales/post";
+            var id = parseInt($("#cajaId").val());
+            var nombre = $("#cajaNombre").val();
+            var direccion = $("#cajaDireccion").val();
+            var telefono = $("#cajaTelefono").val();
+            var camas = parseInt($("#cajaCamas").val());
+
+            $("#btnInsertar").click(function () {
+                var hospital = new Object;
+
+                hospital.idhospital = id;
+                hospital.nombre = nombre;
+                hospital.direccion = direccion;
+                hospital.telefon = telefono;
+                hospital.camas = cama;
+            });
+
             $.ajax({
-                url: url + requestFind,
-                type: "GET",
-                success: function (data) {
-                    var html = "";
-                    html += "<li><strong>Nombre:</strong> " + data.nombre + "</li>";
-                    html += "<li><strong>Dirección:</strong> " + data.direccion + "</li>";
-                    html += "<li><strong>Teléfono:</strong> " + data.telefono + "</li>";
-                    html += "<li><strong>Camas:</strong> " + data.camas + "</li>";
-                    $("#listaHospitales").html(html);
-
+                url: url + request,
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(hospital),
+                success: function (response) {
+                    alert("Hospital insertado correctamente");
+                },
+                error: function (error) {
+                    alert("Error al insertar el hospital");
                 }
-
-            })
-
-        })
+            });
+        });
     </script>
-</body>
 
 </html>

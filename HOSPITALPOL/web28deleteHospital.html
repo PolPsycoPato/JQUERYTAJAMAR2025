@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Eliminar Hospital</title>
+  <script src="js/jquery-3.7.1.js"></script>
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="web28homeHospital.html">Hospitales CRUD</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <li class="nav-item"><a class="nav-link" href="web28homeHospital.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="web28insertHospital.html">Insertar</a></li>
+        <li class="nav-item"><a class="nav-link" href="web28editHospital.html">Editar</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main class="container" style="margin-top: 80px;">
+  <div class="bg-body-tertiary p-5 rounded">
+    <h1 class="mb-4">Eliminar Hospital</h1>
+    <div id="hospitalInfo" class="mb-4"></div>
+    <button id="btnDelete" class="btn btn-danger">Eliminar Hospital</button>
+    <a href="web28homeHospital.html" class="btn btn-secondary">Cancelar</a>
+  </div>
+</main>
+
+<script src="js/bootstrap.bundle.js"></script>
+<script>
+  var url = "https://apicrudhospital.azurewebsites.net/";
+
+  $(document).ready(function () {
+    var params = new URLSearchParams(window.location.search);
+    var idhospital = params.get("idhospital") || params.get("idHospital");
+    console.log("🩺 ID del hospital a eliminar:", idhospital);
+
+    if (!idhospital) {
+      alert("❌ No se ha recibido ningún parámetro 'idhospital' en la URL.");
+      window.location.href = "web28homeHospital.html";
+      return;
+    }
+
+    // Mostrar datos del hospital antes de eliminar
+    var requestFind = "webresources/hospitales/" + idhospital;
+    $.ajax({
+      url: url + requestFind,
+      type: "GET",
+      success: function (data) {
+        var html = `
+          <ul class="list-group">
+            <li class="list-group-item"><strong>ID:</strong> ${data.idhospital}</li>
+            <li class="list-group-item"><strong>Nombre:</strong> ${data.nombre}</li>
+            <li class="list-group-item"><strong>Dirección:</strong> ${data.direccion}</li>
+            <li class="list-group-item"><strong>Teléfono:</strong> ${data.telefono}</li>
+            <li class="list-group-item"><strong>Camas:</strong> ${data.camas}</li>
+          </ul>
+        `;
+        $("#hospitalInfo").html(html);
+      },
+      error: function () {
+        alert("⚠️ Error al cargar los datos del hospital.");
+      }
+    });
+
+    // Acción de eliminar
+    $("#btnDelete").click(function () {
+      if (confirm("⚠️ ¿Seguro que quieres eliminar este hospital?")) {
+        var requestDelete = "webresources/hospitales/delete/" + idhospital;
+
+        $.ajax({
+          url: url + requestDelete,
+          type: "DELETE",
+          success: function () {
+            alert("✅ Hospital eliminado correctamente.");
+            window.location.href = "web28homeHospital.html";
+          },
+          error: function () {
+            alert("❌ Error al eliminar el hospital.");
+          }
+        });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
