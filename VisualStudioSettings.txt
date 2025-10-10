@@ -1,0 +1,23 @@
+{
+    "workbench.sideBar.location": "right",
+    "workbench.editor.showTabs":"multiple",
+    "editor.scrollbar.vertical": "hidden",
+    "editor.overviewRulerBorder": false,
+    "editor.hideCursorInOverviewRuler": true,
+    "editor.guides.indentation": true,
+    "breadcrumbs.enabled": false,
+    "editor.glyphMargin": false,
+    "editor.linkedEditing": true,
+    "editor.guides.bracketPairs": true,
+    "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+    "workbench.colorTheme": "Monokai Vibrant",
+    "editor.cursorBlinking": "expand",
+    "editor.fontFamily": "'JetBrains Mono', Consolas, 'Courier New', monospace",
+    "editor.fontSize": 13,
+    "files.autoSave":"afterDelay",
+    "html.format.templating": true,
+    "editor.wordWrap": "on",
+    "workbench.statusBar.visible": false,
+    "git.confirmSync": false,
+    "editor.autoClosingBrackets": "always"
+}
