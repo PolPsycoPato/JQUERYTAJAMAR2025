@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insertar Doctores</title>
+    <script src="../js/jquery-3.7.1.js"></script>
+</head>
+
+<body>
+    <label for="idHospital">idHospital</label>
+    <input type="number" id="idHospital">
+    <label for="apellido">apellido</label>
+    <input type="text" id="apellido">
+    <label for="especialidad">especialidad</label>
+    <input type="text" id="especialidad">
+    <label for="salario">salario</label>
+    <input type="number" id="salario">
+    <button id="enviar">Enviar</button>
+
+    <script>
+
+        var url = "https://apicruddoctores.azurewebsites.net/";
+        $(document).ready(function () {
+
+            
+            $("#enviar").click(function () {
+                var idHospital = parseInt($("#idHospital").val());
+                var apellido = $("#apellido").val();
+                var especialidad = $("#especialidad").val();
+                var salario = parseInt($("#salario").val());
+                var doctor = new Object();
+
+                
+                doctor.idHospital = idHospital;
+                doctor.apellido = apellido;
+                doctor.especialidad = especialidad;
+                doctor.salario = salario;
+
+                var doctorJson = JSON.stringify(doctor);
+
+                var request = "api/Doctores";
+
+                $.ajax({
+                    url: url + request,
+                    method:"POST",
+                    contentType:"application/json",
+                    data:doctorJson,
+                    success:function(){
+                        console.log("Ingresado con exito");
+                        window.location.href="HomeDoctor.html";
+                        
+                    }
+                })
+
+
+            })
+        })
+    </script>
+</body>
+
+</html>
