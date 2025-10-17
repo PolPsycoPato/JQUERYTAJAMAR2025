@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Doctores</title>
+    <script src="../js/jquery-3.7.1.js"></script>
+</head>
+
+<body>
+    <h1>Tabla Doctores</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>idDoctor</th>
+                <th>idHospital</th>
+                <th>apellido</th>
+                <th>especialidad</th>
+                <th>salario</th>
+                <th>Accion</th>
+            </tr>
+        </thead>
+        <tbody id="tablaDoctores"></tbody>
+    </table>
+
+    <a href="CreateDoctor.html">INSERTAR</a>
+
+    <script>
+        var url = "https://apicruddoctores.azurewebsites.net/";
+
+        $(document).ready(function () {
+
+            var request = "api/Doctores";
+            var html = "";
+
+
+            $.ajax({
+                url: url + request,
+                method: "GET",
+                success: function (datos) {
+                    $.each(datos, function (valor, index) {
+                        html += "<tr>";
+                        html += "<td>" + index.idDoctor + "</td>";
+                        html += "<td>" + index.idHospital + "</td>";
+                        html += "<td>" + index.apellido + "</td>";
+                        html += "<td>" + index.especialidad + "</td>";
+                        html += "<td>" + index.salario + "</td>";
+                        html += "<td><a href='UpdateDoctor.html?idDoctor=" + index.idDoctor + "'>Editar</a></td>";
+                        html += "</tr>";
+                    })
+                    $("#tablaDoctores").html(html);
+                }
+            })
+
+        })
+    </script>
+
+</body>
+
+</html>
